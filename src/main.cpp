@@ -4,10 +4,10 @@
 int main()
 {
     Header head;
-    head.setHost("http://**.fr");
-    head.setPath("/page/commit.php");
+    head.setHost("http://twitter.github.io");
+    head.setPath("/");
 
-    head.setMethod("POST");
+    head.setMethod("GET");
 
     head.setAccept("text/html,application/xhtml+xml,application/xml;q=0.9,*//*;q=0.8");
     head.setUserAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:21.0) Gecko/20100101 Firefox/21.0");
@@ -16,10 +16,7 @@ int main()
     //head.setAccept_encoding("gzip, deflate");
     head.setConnexion("keep-alive");
 
-    head.addCookie("__utmc","563565481430");
 
-    head.addVariable("pseudo","MonPseudo");
-    head.addVariable("motDePass","azery");
 
 
     Http http(head);

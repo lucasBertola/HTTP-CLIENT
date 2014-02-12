@@ -12,7 +12,9 @@ Include `CoucheHttp.h` in your project , by loading it as usual:
 ```c++
 #include "CoucheHttp.h"
 ```
-HTTP-CLIENT has no dependencies and can be used completely standalone.
+
+And linked `libws2_32.a`
+
 
 Basic Usage
 ===============

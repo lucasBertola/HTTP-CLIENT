@@ -10,7 +10,6 @@
 # Compiled Static libraries
 *.lai
 *.la
-*.a
 
 # Structure CodeBlock
 *.depend
