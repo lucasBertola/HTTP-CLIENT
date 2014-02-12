@@ -1,4 +1,4 @@
 HTTP-CLIENT
 ===========
 
-Http client in c++
+HTTP-CLIENT is a simple Http Client library for C++. 
