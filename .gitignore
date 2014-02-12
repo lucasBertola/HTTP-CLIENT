@@ -15,8 +15,10 @@
 # Structure CodeBlock
 *.depend
 *.layout
-
+*.cbp
 
 #dossier Compilation
 /obj
 /bin
+
+
