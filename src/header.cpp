@@ -201,6 +201,10 @@ void Header::removeVariable()
 {
     variable="";
 }
+
+void Header::removeCookie() {
+    cookie = "";
+}
 void Header::removeHttp(char adresse[])
 {
     std::string dd=adresse;

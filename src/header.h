@@ -22,6 +22,7 @@ class Header
         void setIfNotMatch(std::string ref);
 
         void removeVariable();
+        void removeCookie();
 
         const char* getHostChar(bool removeHttp=true);
         std::string getHostString(bool removeHttp=true);
