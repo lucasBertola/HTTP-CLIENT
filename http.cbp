@@ -35,13 +35,15 @@
 		<Linker>
 			<Add option="-lws2_32" />
 		</Linker>
-		<Unit filename="coucheHttp.cpp" />
-		<Unit filename="coucheHttp.h" />
-		<Unit filename="header.cpp" />
-		<Unit filename="header.h" />
-		<Unit filename="main.cpp" />
-		<Unit filename="rechercheInformation.cpp" />
-		<Unit filename="rechercheInformation.h" />
+		<Unit filename="src/coucheHttp.cpp" />
+		<Unit filename="src/coucheHttp.h" />
+		<Unit filename="src/excel.cpp" />
+		<Unit filename="src/excel.h" />
+		<Unit filename="src/header.cpp" />
+		<Unit filename="src/header.h" />
+		<Unit filename="src/main.cpp" />
+		<Unit filename="src/rechercheInformation.cpp" />
+		<Unit filename="src/rechercheInformation.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
