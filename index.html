@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Http client C++ : Http Client is a library in C++ for making Http-requests" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Http client C++</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/lucasBertola/HTTP-CLIENT">View on GitHub</a>
+
+          <h1 id="project_title">Http client C++</h1>
+          <h2 id="project_tagline">Http Client is a library in C++ for making Http-requests</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/lucasBertola/HTTP-CLIENT/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/lucasBertola/HTTP-CLIENT/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="http-client" class="anchor" href="#http-client"><span class="octicon octicon-link"></span></a>HTTP-CLIENT</h1>
+
+<p>HTTP-CLIENT is an implementation of an HTTP client in c++.</p>
+
+<p>It has no dependencies.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Include <code>CoucheHttp.h</code> in your project , by loading it as usual:</p>
+
+<div class="highlight highlight-c++"><pre><span class="cp">#include "CoucheHttp.h"</span>
+</pre></div>
+
+<p>And linked <code>libws2_32.a</code></p>
+
+<h1>
+<a name="basic-usage" class="anchor" href="#basic-usage"><span class="octicon octicon-link"></span></a>Basic Usage</h1>
+
+<div class="highlight highlight-c++"><pre>    <span class="n">Header</span> <span class="n">head</span><span class="p">;</span>
+    <span class="n">head</span><span class="p">.</span><span class="n">setHost</span><span class="p">(</span><span class="s">"http://twitter.github.io"</span><span class="p">);</span>
+
+    <span class="n">Http</span> <span class="nf">http</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">page</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="n">getPage</span><span class="p">(</span><span class="o">&amp;</span><span class="n">head</span><span class="p">);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">page</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+
+<h1>
+<a name="advanced-usage" class="anchor" href="#advanced-usage"><span class="octicon octicon-link"></span></a>Advanced Usage</h1>
+
+<div class="highlight highlight-c++"><pre>    <span class="n">Header</span> <span class="n">head</span><span class="p">;</span>
+    <span class="n">head</span><span class="p">.</span><span class="n">setHost</span><span class="p">(</span><span class="s">"http://**.fr"</span><span class="p">);</span>
+    <span class="n">head</span><span class="p">.</span><span class="n">setPath</span><span class="p">(</span><span class="s">"/page/commit.php"</span><span class="p">);</span>
+
+    <span class="n">head</span><span class="p">.</span><span class="n">setMethod</span><span class="p">(</span><span class="s">"POST"</span><span class="p">);</span>
+
+    <span class="n">head</span><span class="p">.</span><span class="n">setAccept</span><span class="p">(</span><span class="s">"text/html,application/xhtml+xml,application/xml;q=0.9,*//*;q=0.8"</span><span class="p">);</span>
+    <span class="n">head</span><span class="p">.</span><span class="n">setUserAgent</span><span class="p">(</span><span class="s">"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:21.0) Gecko/20100101 Firefox/21.0"</span><span class="p">);</span>
+    <span class="n">head</span><span class="p">.</span><span class="n">setAccept_language</span><span class="p">(</span><span class="s">"fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3"</span><span class="p">);</span>
+
+    <span class="c1">//head.setAccept_encoding("gzip, deflate");</span>
+    <span class="n">head</span><span class="p">.</span><span class="n">setConnexion</span><span class="p">(</span><span class="s">"keep-alive"</span><span class="p">);</span>
+
+    <span class="n">head</span><span class="p">.</span><span class="n">addCookie</span><span class="p">(</span><span class="s">"__utmc"</span><span class="p">,</span><span class="s">"563565481430"</span><span class="p">);</span>
+
+    <span class="n">head</span><span class="p">.</span><span class="n">addVariable</span><span class="p">(</span><span class="s">"pseudo"</span><span class="p">,</span><span class="s">"MonPseudo"</span><span class="p">);</span>
+    <span class="n">head</span><span class="p">.</span><span class="n">addVariable</span><span class="p">(</span><span class="s">"motDePass"</span><span class="p">,</span><span class="s">"azery"</span><span class="p">);</span>
+
+
+    <span class="n">Http</span> <span class="nf">http</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">page</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="n">getPage</span><span class="p">(</span><span class="o">&amp;</span><span class="n">head</span><span class="p">);</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">page</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+    <span class="c1">//falcutatif</span>
+    <span class="n">head</span><span class="p">.</span><span class="n">removeVariable</span><span class="p">();</span>
+    <span class="n">head</span><span class="p">.</span><span class="n">removeCookie</span><span class="p">();</span>
+</pre></div>
+
+<h3>
+<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+
+<p>In 2014 Lucas Bertola (<a href="https://github.com/lucasBertola" class="user-mention">@lucasBertola</a>)</p>
+
+<h3>
+<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+
+<p>Having trouble with Pages? Check out the documentation at <a href="https://github.com/lucasBertola/HTTP-CLIENT">https://github.com/lucasBertola/HTTP-CLIENT</a></p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Http client C++ maintained by <a href="https://github.com/lucasBertola">lucasBertola</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
