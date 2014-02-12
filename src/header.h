@@ -9,35 +9,37 @@ class Header
         Header();
         void setHost(std::string host);
         void setPath(std::string path);
-        void setCookie(std::string path);
-        void setReferer(std::string ref);
-        void setUserAgent(std::string ref);
-        void setAccept(std::string ref);
-         void setMethod(std::string ref);
-        void setAccept_language(std::string ref);
-        void setAccept_encoding(std::string ref);
-        void setConnexion(std::string ref);
-        void addVariable(std::string variable,std::string value);
+         void addVariable(std::string variable,std::string value);
         void addCookie(std::string variable,std::string value);
-        void setIfNotMatch(std::string ref);
 
-        void removeVariable();
-        void removeCookie();
+
+        void setCookie(std::string cookie)            {this->cookie = cookie;}
+        void setReferer(std::string past)             {this->referer = past;}
+        void setUserAgent(std::string past)           {this->userAgent = past;}
+        void setAccept(std::string accepted)          {this->accept = accepted;}
+        void setMethod(std::string method)            {this->method = method;}
+        void setAccept_language(std::string lg)       {this->accept_language = lg;}
+        void setAccept_encoding(std::string encoding) {this->accept_encoding = encoding;}
+        void setConnexion(std::string past)           {this->connexion = host;}
+        void setIfNotMatch(std::string iNm)           {this->if_None_Match = iNm;}
+
+        void removeVariable(){ variable=""; }
+        void removeCookie(){  cookie = ""; }
 
         const char* getHostChar(bool removeHttp=true);
         std::string getHostString(bool removeHttp=true);
 
-        std::string getPathString();
-        std::string getRefererString();
-        std::string getUserAgent();
-        std::string getAccept();
-        std::string getMethod();
-        std::string getCookie();
-        std::string getAccept_language();
-        std::string getAccept_encoding();
-        std::string getVariable();
-        std::string getConnexion();
-        std::string getIfnotMatch();
+        std::string getPathString()      {return path;}
+        std::string getRefererString()   {return referer;}
+        std::string getUserAgent()       {return userAgent;}
+        std::string getAccept()          {return accept;}
+        std::string getMethod()          {return method;}
+        std::string getCookie()          {return cookie;}
+        std::string getAccept_language() {return accept_language;}
+        std::string getAccept_encoding() {return accept_encoding;}
+        std::string getVariable()        {return variable;}
+        std::string getConnexion()       {return connexion;}
+        std::string getIfnotMatch()      {return if_None_Match;}
 
 
 

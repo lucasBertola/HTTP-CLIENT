@@ -6,6 +6,7 @@
 #include <sstream>
 
 #define BUFLEN 512
+
 //TODO DEV HTTPS
 
 Http::Http(Header head) {
@@ -206,7 +207,8 @@ int Http::recvTimeOut(int sock, int millisecond,std::string* chaine)
 
      fd_set readfs;
      FD_ZERO(&readfs);
-     FD_SET(sock,&readfs);
+     FD_SET(sock,
+            &readfs);
      int nb = select(sock+1,&readfs,NULL,NULL,&timeout);
 
      if(nb==0)

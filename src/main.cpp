@@ -16,9 +16,6 @@ int main()
     //head.setAccept_encoding("gzip, deflate");
     head.setConnexion("keep-alive");
 
-
-
-
     Http http(head);
 
     std::string page = http.getPage(&head);
