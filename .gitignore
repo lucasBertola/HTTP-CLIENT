@@ -11,3 +11,12 @@
 *.lai
 *.la
 *.a
+
+# Structure CodeBlock
+*.depend
+*.layout
+
+
+#dossier Compilation
+/obj
+/bin
