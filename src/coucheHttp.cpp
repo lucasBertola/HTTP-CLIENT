@@ -1,4 +1,4 @@
-#include "CoucheHttp.h"
+#include "coucheHttp.h"
 #include "rechercheInformation.h"
 #include <string>
 #include <iostream>
@@ -10,14 +10,15 @@
 //TODO DEV HTTPS
 
 Http::Http(Header head) {
-
-    // initiates use of the Winsock DLL
-    if ( WSAStartup (MAKEWORD( 2 , 2 ) , &WSAData))
-    {
-        std::cout<<"Error in the WSAStatrup; Have you got a connexion internet?"<<std::endl;
-        exit(-1);
-    }
-
+    #if defined(WIN32)
+        WSADATA WSAData;
+        // initiates use of the Winsock DLL
+        if ( WSAStartup (MAKEWORD( 2 , 2 ) , &WSAData))
+        {
+            std::cout<<"Error in the WSAStatrup; Have you got a connexion internet?"<<std::endl;
+            exit(-1);
+        }
+    #endif
     CreateSocket ( head );
     ConnectSocket();
 }
