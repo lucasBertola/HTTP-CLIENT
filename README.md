@@ -62,3 +62,5 @@ Advanced Usage
     head.removeVariable();
     head.removeCookie();
 ```
+
+Chunked transfer encoding works.

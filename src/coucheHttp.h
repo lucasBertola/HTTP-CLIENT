@@ -14,18 +14,24 @@ class Http
         Http(Header head);
         ~Http();
 
+        //get the body and head of the page
         std::string getPage(Header* head);
-        std::string recvPaquet();
-        void ConnectSocket();
+
     private:
 
+        void ConnectSocket();
+        std::string recvPaquet();
+
         void CreateSocket(Header head);
-        int tailleHead(std::string page);
+
+        unsigned int tailleHead(std::string page);
         int hexaTodecimal(std::string hexa);
+
         SOCKET sock;
         SOCKADDR_IN sin;
 
         WSADATA WSAData;
+
         void redirection(Header* head,std::string* reponce);
         int recvTimeOut(int s,  int millisecond,std::string *chaine);
 

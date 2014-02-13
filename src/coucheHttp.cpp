@@ -86,14 +86,14 @@ std::string Http::getPage(Header* head){
 }
 
 void  Http::redirection(Header* head,std::string* reponce){
-    if(reponce->find("\r\nlocation: ")<=reponce->size()||reponce->find("\r\nLocation: ")<=reponce->size())//TODO changer imagine que sur le content y a un \r\nlocation
+    if(reponce->find("\r\nlocation: ") != std::string::npos|| reponce->find("\r\nLocation: ") != std::string::npos)//TODO changer imagine que sur le content y a un \r\nlocation
     {
 
-        if(reponce->find("\r\nlocation: ")<=reponce->size())
+        if(reponce->find("\r\nlocation: ") != std::string::npos)
             RechercheInfo::searchCutLeft(reponce,"\r\nlocation: ",true);
 
 
-         if(reponce->find("\r\nLocation: ")<=reponce->size())
+         if(reponce->find("\r\nLocation: ") != std::string::npos)
             RechercheInfo::searchCutLeft(reponce,"\r\nLocation: ",true);
 
             RechercheInfo::searchCutRight(reponce,"\r\n",true);
@@ -185,7 +185,7 @@ void Http::sendPaquet(Header head)
 
     unsigned int nbEnvoyer = 0;
     int erreur=-1;
-    while(nbEnvoyer<strlen(bufferOutput))//On verifie qu'on envoie bien 1000ko
+    while(nbEnvoyer<strlen(bufferOutput))
     {
         erreur = send(sock,bufferOutput+nbEnvoyer,strlen(bufferOutput)-nbEnvoyer,0);
         nbEnvoyer+=erreur;
@@ -207,8 +207,7 @@ int Http::recvTimeOut(int sock, int millisecond,std::string* chaine)
 
      fd_set readfs;
      FD_ZERO(&readfs);
-     FD_SET(sock,
-            &readfs);
+     FD_SET(sock,&readfs);
      int nb = select(sock+1,&readfs,NULL,NULL,&timeout);
 
      if(nb==0)
@@ -247,37 +246,50 @@ int Http::hexaTodecimal(std::string hex)
     return x;
 }
 
-int Http::tailleHead(std::string page) {
+unsigned int Http::tailleHead(std::string page) {
     int taille = page.length();
     RechercheInfo::searchCutRight(&page,"\r\n\r\n",false);
+
     if(page.length()==0)
         return taille;
+
     return page.length();
 }
 
 std::string Http::recvPaquet() {
-     //doit etre de a meme taille que bufferInput
+
+    //stock the number of bytes received
+    unsigned int nbRecu = 0;
+
+    //the number of bytes of the chunk.
+    int chunked = 0;
+
+    bool isChunked = false ;
 
 
-     int chunked = 0;
-     unsigned int nbRecu = 0;
-     int tampon;
-     bool isChunked = false;
-     bool haveContentLength = false;
-     unsigned int contentLenght = 0;
+    bool haveContentLength = false;
 
-     std::string input = "";
+    //the number of bytes of the content.
+    unsigned int contentLenght = 0;
 
-    static int nbTour =0;
+    //Stock the reponse
+    std::string input = "";
+
     bool isRunning = true;
-     while(isRunning){
+
+    unsigned int tampon;
+
+    while(isRunning){
+
         tampon = recvTimeOut(sock,1000,&input);
         nbRecu += tampon;
-        if(tampon == 0)//Si la connexion est fermer
+
+        if(tampon == 0)
         {
-           // std::cout<<"Connexion fermer par server"<<std::endl;
+            //La connexion est fermer par le serveur
             break;
         }
+
         if(!isChunked && input.find("Transfer-Encoding: chunked") !=  std::string::npos && input.find("Transfer-Encoding: chunked")<tailleHead(input))
         {
             std::string tampon = input;
@@ -305,35 +317,31 @@ std::string Http::recvPaquet() {
             if(tampon.length()==0)
                 break;
 
-            int nombre= hexaTodecimal(tampon);
-           // std::cout<<tampon<<std::endl;
-            //std::cout<<input<<std::endl;
+            int nombre = hexaTodecimal(tampon);
+
+            //if the size of the new chunk is 0 we stop.
             if(nombre==0)
             {
-               // std::cout<<input<<std::endl;
-              // std::cout<<"on a trouver le prochain chunked :"<<nombre<<" qui correspnd a "<<tampon<<std::endl;
                 isRunning = false;
                 break;
-            }else
-            {
 
+            }else //else we upgrade the chunk
+            {
                 int EmplacementChunked = 0 ;
                 if(input.find(tampon) !=std::string::npos)
                     EmplacementChunked = input.find(tampon);
-                else std::cout<<"alert"<<std::endl;
+
                 if(nbRecu<(EmplacementChunked+tampon.length()+2)) break;
 
                 input.replace(EmplacementChunked-2,tampon.length()+4,"X");
 
                 nbRecu -= (tampon.length()+3);
                 chunked += nombre+1;// en faite ce serait plus : -2 +2 + nombre
-                 #ifdef _DEBUG
-                std::cout<<"augmentation du chunked de "<<nombre<<" "<<chunked<<std::endl;
-               #endif
+
+                //std::cout<<"augmentation du chunked de "<<nombre<<" "<<chunked<<std::endl;
+
 
             }
-
-
         }
 
         if(!haveContentLength)
@@ -350,10 +358,7 @@ std::string Http::recvPaquet() {
                 iss >> contentLenght;
                 haveContentLength = true;
             }
-
-
         }
-
         if(haveContentLength&&contentLenght<=nbRecu)
         {
             break;
@@ -375,16 +380,6 @@ std::string Http::recvPaquet() {
          }*/
 
      }
-      #ifdef _DEBUG
-      std::cout<<std::endl<<"reponce:"<<nb<<std::endl;
-      for(int i = 0;i<nb;i++)
-      {
-          //std::cout<<i<<"."<<bufferIntput[i]+1<<" ";
-          //std::cout<<bufferIntput[i];
-      }
-      std::cout<<std::endl;
-       #endif
-      //return caca;
       return input;
 }
 Http::~Http()
