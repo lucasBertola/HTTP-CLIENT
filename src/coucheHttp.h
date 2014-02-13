@@ -33,7 +33,7 @@ class Http
         WSADATA WSAData;
 
         void redirection(Header* head,std::string* reponce);
-        int recvTimeOut(int s,  int millisecond,std::string *chaine);
+        int recvTimeOut(unsigned int s,  int millisecond,std::string *chaine);
 
 
         void sendPaquet(Header head);

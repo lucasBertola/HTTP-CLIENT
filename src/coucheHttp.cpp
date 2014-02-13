@@ -199,7 +199,7 @@ void Http::sendPaquet(Header head)
     delete[] bufferOutput;
 }
 
-int Http::recvTimeOut(int sock, int millisecond,std::string* chaine)
+int Http::recvTimeOut(unsigned int sock, int millisecond,std::string* chaine)
 {
      struct timeval timeout;
      timeout.tv_sec = millisecond;
@@ -262,7 +262,7 @@ std::string Http::recvPaquet() {
     unsigned int nbRecu = 0;
 
     //the number of bytes of the chunk.
-    int chunked = 0;
+    unsigned int chunked = 0;
 
     bool isChunked = false ;
 
@@ -286,7 +286,9 @@ std::string Http::recvPaquet() {
 
         if(tampon == 0)
         {
-            //La connexion est fermer par le serveur
+            #ifdef _DEBUG
+                std::cout<<"Connexion closed by the server"<<std::endl;
+            #endif
             break;
         }
 
@@ -301,6 +303,12 @@ std::string Http::recvPaquet() {
                 chunked = hexaTodecimal(tampon)+input.find(tampon)+tampon.size()+4;
 
                 isChunked = true;
+
+                #ifdef _DEBUG
+                    std::cout<<"The reponse is chunked"<<std::endl;
+                #endif
+
+
                 input.replace(input.find(tampon),tampon.size()+2,"");
                 nbRecu -= (tampon.length()+2);
                 chunked -= (tampon.length()+2);
@@ -309,7 +317,7 @@ std::string Http::recvPaquet() {
 
         while(isChunked&&chunked<nbRecu )
         {
-            std::string tampon=input;
+            std::string tampon = input;
             tampon.replace(0,chunked,"");
             RechercheInfo::searchCutRight(&tampon,"\r",true);
 
@@ -338,7 +346,9 @@ std::string Http::recvPaquet() {
                 nbRecu -= (tampon.length()+3);
                 chunked += nombre+1;// en faite ce serait plus : -2 +2 + nombre
 
-                //std::cout<<"augmentation du chunked de "<<nombre<<" "<<chunked<<std::endl;
+                #ifdef _DEBUG
+                   std::cout<<"augmentation du chunked de "<<chunked<<" octet"<<std::endl;
+                #endif
 
 
             }
@@ -347,7 +357,8 @@ std::string Http::recvPaquet() {
         if(!haveContentLength)
         {
             std::string tampon = input;
-            //on supprume le header
+
+            //on garde uniquement le header
             tampon.replace(tailleHead(input),tampon.size()-tailleHead(input),"");
 
             RechercheInfo::searchCutLeft(&tampon,"Content-Length:",true);
@@ -357,29 +368,23 @@ std::string Http::recvPaquet() {
                 std::istringstream iss(tampon);
                 iss >> contentLenght;
                 haveContentLength = true;
+                #ifdef _DEBUG
+                    std::cout<<"The reponse have a ContentLength of "<<contentLenght<<" octet"<<std::endl;
+                #endif
+
+
             }
         }
-        if(haveContentLength&&contentLenght<=nbRecu)
+        if(haveContentLength&&(contentLenght+tailleHead(input))<=nbRecu)
         {
+                #ifdef _DEBUG
+                    std::cout<<"Client close the connexion because the content length is receved"<<std::endl;
+                #endif
             break;
         }
 
-      /*  if(input.find("Connection: keep-alive")<input.size())
-        {
-            std::cout<<"Connexion fermer car keep-alive"<<std::endl;
-
-            break;
-        }*/
-       /*  if(bufferIntput[input.size()-1]==10&&bufferIntput[input.size()-2]==13&&bufferIntput[input.size()-3]==10&&bufferIntput[input.size()-4]==13&&bufferIntput[input.size()-5]==48)
-         {
-             #ifdef _DEBUG
-         std::cout<<"Connexion fermer car 48 13 10 13 10"<<std::endl;
-         #endif
-           // std::cout<<"Connexio fermer par envoi d signal 13 10 13 10 +"<<bufferIntput[input.size()-5]<<std::endl;
-             break;
-         }*/
-
      }
+
       return input;
 }
 Http::~Http()
