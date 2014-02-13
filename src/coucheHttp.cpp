@@ -31,7 +31,7 @@ void Http::CreateSocket(Header head) {
     if (hostinfo == NULL) /* l'hôte n'existe pas */
     {
         fprintf (stderr, "Unknown host %s\n", hostname);
-        exit(EXIT_FAILURE);
+        exit(-1);
     }
 
     sock = socket(AF_INET,SOCK_STREAM,0);
@@ -391,6 +391,11 @@ std::string Http::recvPaquet() {
 Http::~Http()
 {
     closesocket(sock);
-    WSACleanup();
+
+    #if defined(WIN32)
+        WSACleanup();
+    #endif
+
+
 }
 
