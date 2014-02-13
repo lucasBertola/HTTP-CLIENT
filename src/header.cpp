@@ -49,7 +49,14 @@ void Header::addCookie(std::string variable,std::string value)
         }
         this->cookie += variable+"="+value+';';
 
-    }else RechercheInfo::remplace(&cookie,variable,value);
+    }else{
+        std::string tampon = cookie;
+        int nb = tampon.find(variable+'=');
+        std::string offset = variable+'=';
+        RechercheInfo::searchCutLeft(&tampon,variable+'=',true);
+        int nb2 = tampon.find(';');
+        cookie.replace(nb+offset.size(),nb2,value);
+    }
 
 }
 

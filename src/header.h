@@ -9,7 +9,7 @@ class Header
         Header();
         void setHost(std::string host);
         void setPath(std::string path);
-         void addVariable(std::string variable,std::string value);
+        void addVariable(std::string variable,std::string value);
         void addCookie(std::string variable,std::string value);
 
 
@@ -33,8 +33,8 @@ class Header
         std::string getRefererString()   {return referer;}
         std::string getUserAgent()       {return userAgent;}
         std::string getAccept()          {return accept;}
-        std::string getMethod()          {return method;}
         std::string getCookie()          {return cookie;}
+        std::string getMethod()          {return method;}
         std::string getAccept_language() {return accept_language;}
         std::string getAccept_encoding() {return accept_encoding;}
         std::string getVariable()        {return variable;}
