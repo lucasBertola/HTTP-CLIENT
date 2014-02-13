@@ -1,6 +1,6 @@
 # HTTP-CLIENT
 
-HTTP-CLIENT is an implementation of an HTTP client in c++.
+HTTP-CLIENT is an implementation of an HTTP client in c++ for WIN32 et UNIX.
 
 It has no dependencies.
 
