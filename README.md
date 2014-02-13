@@ -13,7 +13,7 @@ Include `CoucheHttp.h` in your project , by loading it as usual:
 #include "CoucheHttp.h"
 ```
 
-And linked `libws2_32.a`
+Linked `libws2_32.a` if you're on Windows.
 
 
 Basic Usage
