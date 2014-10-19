@@ -7,10 +7,10 @@ It has no dependencies.
 ## Installation
 
 
-Include `CoucheHttp.h` in your project , by loading it as usual:
+Include `coucheHttp.h` in your project , by loading it as usual:
 
 ```c++
-#include "CoucheHttp.h"
+#include "coucheHttp.h"
 ```
 
 Linked `libws2_32.a` if you're on Windows.
